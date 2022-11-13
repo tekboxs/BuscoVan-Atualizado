@@ -39,9 +39,9 @@ class RotasModel {
 
   factory RotasModel.fromMap(Map<String, dynamic> map) {
     return RotasModel(
-      map['rotaA'] as String,
-      map['rotaB'] as String,
-      map['telefone'] as String,
+      map['Rota A'] as String,
+      map['Rota B'] as String,
+      map['Telefone'] as String,
       map['nomeCompleto'] as String,
     );
   }

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_final/NovasRotas/motorista_model.dart';
 import 'package:projeto_final/NovasRotas/motoristaperfil.dart';
+import '/globals.dart' as globals;
 
 class TelaMenu extends StatefulWidget {
   const TelaMenu({super.key});
@@ -56,14 +57,15 @@ class _TelaMenuState extends State<TelaMenu> {
                   return ListTile(
                     title: Text(resultadoPesquisa[index].rotaA),
                     subtitle: Text(resultadoPesquisa[index].nomeCompleto),
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MotoristaPerfil(
-                          rotas: resultadoPesquisa[index],
+                    onTap: () {
+                      globals.routeProfile = resultadoPesquisa[index];
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MotoristaPerfil(),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
                 }),
           ),

@@ -1,17 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:projeto_final/NovasRotas/motorista_model.dart';
+import 'package:flutter/material.dart';
+import 'package:projeto_final/NovasRotas/components/body_perfil.dart';
 
 class MotoristaPerfil extends StatelessWidget {
-  final RotasModel rotas;
-  const MotoristaPerfil({super.key, required this.rotas});
+  const MotoristaPerfil({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(rotas.nomeCompleto),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Perfil Motorista"),
+      ),
+      body: const Body(),
     );
   }
 }
