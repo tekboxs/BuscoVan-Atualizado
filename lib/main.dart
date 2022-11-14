@@ -4,13 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto_final/cadastros/CadastroAluno.dart';
+import 'package:get/get.dart';
 import 'package:projeto_final/cadastros/CadastroMotorista.dart';
-import 'package:projeto_final/cadastros/CadastroRotas.dart';
+import 'package:projeto_final/screens/home/home_screen.dart';
+import 'package:projeto_final/screens/login/login_screen.dart';
+import 'package:projeto_final/screens/splash/splash_screen.dart';
+import 'package:projeto_final/size_config.dart';
 import 'package:projeto_final/telamenu.dart';
-import 'BD/authpage.dart';
-import 'NovasRotas/paginaRegistro.dart';
-import 'NovasRotas/pesquisa.dart';
+import 'theme.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,44 +30,60 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'BuscoVan',
+      theme: currentAppTheme,
       home: Main(),
-      routes: {
-        //'/': (context) =>  const HomePage(),
-        //'/login': (context) => const LoginPage(),
-        '/register': (context) => RegisterPage(),
-        '/aluno': (context) => AlunoCadastro(),
-        '/motorista': (context) => MotoristaCadastro(),
-        '/pesquisa': (context) => Pesquisa(),
-        '/telaprincipal': (context) => TelaMenu(),
-        '/cadastroRotas': (context) => CadastroRotas(),
-      },
+    );
+  }
+}
+
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("TENTE NOVAMENTE"));
+          } else if (snapshot.hasData) {
+            return HomeScreen();
+          } else {
+            return LoginScreen();
+          }
+        },
+      ),
     );
   }
 }
 
 class Main extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text("TENTE NOVAMENTE"));
-            } else if (snapshot.hasData) {
-              return TelaMenu();
-            } else {
-              return AuthPage();
-            }
-          },
-        ),
-      );
+  Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    return Scaffold(
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("TENTE NOVAMENTE"));
+          } else if (snapshot.hasData) {
+            return SplashScreen();
+          } else {
+            return SplashScreen(
+              isLoggin: true,
+            );
+          }
+        },
+      ),
+    );
+  }
 }

@@ -1,0 +1,1 @@
+enum LoginStatus { error, valid }

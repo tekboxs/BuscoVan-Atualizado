@@ -1,5 +1,5 @@
 library globals;
 
-import 'package:projeto_final/NovasRotas/motorista_model.dart';
+// import 'package:projeto_final/NovasRotas/motorista_model.dart';
 
-RotasModel? routeProfile;
+// RotasModel? routeProfile;
